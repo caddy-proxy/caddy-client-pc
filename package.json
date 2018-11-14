@@ -4,11 +4,13 @@
   "description": "a https proxy client",
   "main": "main.js",
   "dependencies": {
-    "electron": "^3.0.9"
+    "electron": "^3.0.9",
+    "jquery": "^3.3.1"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "./node_modules/.bin/electron main.js",
+    "dbg" : "./node_modules/.bin/electron main.js  --debug --enable-logging"
   },
   "author": "",
   "license": "ISC"
