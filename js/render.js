@@ -25,6 +25,7 @@ function sendAsyncMsg(msg) {
 
 
 function processMsgReply(msg) {
+    console.log('get msg reply '+ msg.type);
     if( msg.type == messages.MSG_TYPE_CONNECT_RET) {
         if(msg.code == 0) {
             //success
@@ -36,6 +37,8 @@ function processMsgReply(msg) {
             setConnectionState('disconnected');
             logger.log('connect proxy server failed ' + msg.code);
         }
+    } else if (msg.type == messages.MSG_TYPE_LOG) {
+        logger.log(msg.log);
     }
 }
 
@@ -53,7 +56,8 @@ function onClickConnection() {
     logger.log('click connect button');
     let msg ;
     if (connectionState == 'disconnected') {
-        let url = $('#connect-button').val();
+        let url = $('#connect-url').val();
+        console.log('url is ' + url);
         msg = messages.buildMsg(messages.MSG_TYPE_CONNECT, url);
         sendAsyncMsg(msg);
     } else if (connectionState == 'connected') {
@@ -75,6 +79,8 @@ function onClickCp() {
 
 function onClickQuit() {
     logger.log('click quit button');
+    let msg = messages.buildMsg(messages.MSG_TYPE_QUIT, 0);
+    sendAsyncMsg(msg)
 }
 
 $(()=> {
@@ -94,5 +100,5 @@ $(()=> {
         onClickQuit();
     });
 
-
+    processMessages();
 });

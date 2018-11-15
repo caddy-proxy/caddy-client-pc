@@ -7,35 +7,42 @@ const http = require('http');
 const messages = require('./messages.js');
 const urlParser =  require('./url_parser.js');
 const https = require('https');
+const tls = require('tls');
+let isStartHttpServer = false;
+let mainWindow = null;
 
 let connState = 'disconnected'; // disconnected, connected
-let  httpServer;
+let  httpServer = null;
 
 function onConnectMsg(url) {
+    console.log('onConnectMsg');
+    startHttpServer();
     let connectionStr = urlParser.getConnectionStr(url);
     let serverUrl = urlParser.getServerUrl(connectionStr);
     if (connState == 'disconnected') {
         
     } else if(connState == 'connected') {
-        logger.log(' state is connected, do nothing');
+        
+        logger.mainLog(mainWindow,' state is connected, do nothing');
     } else {
-        logger.log('unknown state : ' + connState);
+        logger.mainLog(mainWindow,'unknown state : ' + connState);
     }
 
 }
 
-function onDisconnectMsg() {    
-
+function onDisconnectMsg(code) {    
+    logger.mainLog(mainWindow, 'disconnect  server code :' + code);
 }
 
 function onAsyncMsg(event, msg) {
-    logger.log('receive async msg ' + msg.type);
+    console.log('main receive msg ' + msg.type);
+    logger.mainLog(mainWindow,'receive async msg ' + msg.type);
     if(msg.type == messages.MSG_TYPE_CONNECT) {
         onConnectMsg(msg.param);
     } else if (msg.type == messages.MSG_TYPE_DISCONNECT) {
-
+        onDisconnectMsg(msg.param);
     } else {
-        logger.log('unknown msg '+ msg.type);
+        logger.mainLog(mainWindow,'unknown msg '+ msg.type);
     }
 
 }
@@ -55,15 +62,19 @@ function handleConnect(req, socket, headBuffer) {
 
 //listen on localhost:8081
 function startHttpServer() {
+    if(isStartHttpServer) {
+       logger.mainLog(mainWindow, 'has started http server');
+       return; 
+    }
     httpServer = http.createServer();
     httpServer.on('clientError', (err, socket) => {
         socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
     });
     httpServer.on('error', (err) => {
         if(err.code == 'EADDRINUSE') {
-            logger.log('port 8081 is being used');
+            logger.mainLog(mainWindow,'port 8081 is being used');
         } else {
-            logger.log('listen error on localhost:8081');
+            logger.mainLog(mainWindow,'listen error on localhost:8081');
         }
     });
 
@@ -72,6 +83,17 @@ function startHttpServer() {
     });
 
     httpServer.listen(8081, 'localhost');
+    isStartHttpServer = true;
+    logger.mainLog(mainWindow,'start http proxy server success!!');
+}
+
+function stopHttpServer(){
+    isStartHttpServer = false;
+    if ( httpServer != null) {
+        httpServer.close(()=>{
+            logger.mainLog(mainWindow, 'http proxy server closed');
+        });
+    }
 }
 
 
@@ -80,6 +102,7 @@ module.exports = {
         mainWindow = new BrowserWindow({width:650, height:700, 
             center:true, maximizable:false, minimizable:true,closable:false, title : 'caddy-client'});
         let mainPage = path.join('file://', __dirname, '../html/mainpage.html');
+
         mainWindow.on('ready-to-show', ()=>{
             mainWindow.show();
         }); 
@@ -87,10 +110,11 @@ module.exports = {
         mainWindow.on('close', (ev) => {
             mainWindow = null;
         });
-        startHttpServer();
+        
     },
 
     closeWindow :  function() {
+        stopHttpServer();
         mainWindow.closeWindow();
         app.exit();
     },
