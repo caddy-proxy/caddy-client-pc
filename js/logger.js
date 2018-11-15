@@ -8,7 +8,7 @@ const logTerminal = 'ui';
 module.exports = {
     //log: log string
     log : function(log) {
-        if (logTerminal == 'ui') {
+        if (logTerminal == 'ui' && $('#log-area').length) {
             let oldLog = $('#log-area').val();
             if ( oldLog.length  > 0) {
                 oldLog += '\n';
@@ -23,6 +23,7 @@ module.exports = {
         }
     },
     mainLog : function(win, log) {
+        
         if (logTerminal == 'ui') {
             console.log('logger send msg :' + log);
             win.webContents.send('msg-reply', {'type': messages.MSG_TYPE_LOG, 'log': log});
@@ -33,4 +34,6 @@ module.exports = {
             console.log(log);
         }
     }
+
+    
 }

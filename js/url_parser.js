@@ -1,13 +1,16 @@
 const logger = require('./logger.js');
 const md5 = require('md5');
+const fs = require('fs');
 
 let clientDownloadUrl = '';
 let proxyHost = '';
-let proxyPort = '';
+let proxyPort = 0;
 let proxyUser = '';
 let proxyPwd = '';
 let isAdmin = false;
 
+const clientDownloadURL = 'https://caddy-forwardproxy/download/client/download.html';
+const saveFilePath = "./config.dat";
 
 //parse : base64(username:password)
 function parseUserPwd(userPwdStr) {
@@ -66,7 +69,7 @@ function parseProxyUrl(proxyUrl) {
             let hostPortParts = hostPortStr.split(':');
             if(hostPortParts.length == 2) {
                 proxyHost = hostPortParts[0];
-                proxyPort = hostPortParts[1];
+                proxyPort = parseInt(hostPortParts[1], 10);
             } else {
                 return false;
             }
@@ -137,5 +140,42 @@ module.exports = {
 
     getDownloadUrl : function() {
         return clientDownloadUrl;
+    },
+    getShareLinkStr : function() {
+        let connectStr = getConnectStr();
+        return clientDownloadURL + '#' + encodeURIComponent(connectStr);
+    },
+
+    getConnectStr : function() {
+        let userpwd = Buffer.from(proxyUser+':'+proxyPwd).toString('base64');
+        let connectStr = 'hs://' + userpwd + '@' + proxyHost + ':' + proxyPort + '/?caddy=1';
+        return connectStr;
+    },
+    
+    save : function(profileName) {
+        let connectStr = getConnectStr();
+        let aLine = profileName + ' ' + connectStr + '\n';
+        fs.appendFile(saveFilePath, aLine, 'utf8', (err) => {
+           if (err) {
+               throw err;
+           }
+        });
+    },
+
+    //return profiles like [{name:'xxx', url: 'xxx'}, ...]
+    getAllProfiles : function() {
+       let content = fs.readFileSync(saveFilePath, 'utf8');
+       let lines = content.split('\n');
+       let profileArray = [];
+       for(var line in lines) {
+            if (line.length > 0) {
+                let profile = line.split(' ');
+                profileArray.push({
+                    name : profile[0],
+                    url : profile[1]
+                });
+            } 
+       }
+       return profileArray;
     }
 }

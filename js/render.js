@@ -1,13 +1,12 @@
 
 const console = require('console'); 
-const remote = require('electron').remote;
 const logger = require('./logger.js');
-const {ipcRenderer} = require('electron');
+const {ipcRenderer, clipboard} = require('electron');
 const messages = require('./messages.js');
+const urlParser = require('./url_parser');
 
 //values: connected , disconnected
 let connectionState = 'disconnected';
-
 
 function setConnectionState(state) {
     if( state == 'connected') {
@@ -70,17 +69,24 @@ function onClickConnection() {
 }
 
 function onClickShare() {
-    logger.log('click share button');
+   let linkStr = $('#connect-url').val();
+   if( !urlParser.parseLinkStr(linkStr) ) {
+       logger.log('can not share, format is error');
+       return;
+   }
+   $('#share-input').val(urlParser.getShareLinkStr());
 }
 
 function onClickCp() {
-    logger.log('click cp button');
+    let url = $('#share-input').val();
+    clipboard.writeText(url);
 }
 
 function onClickQuit() {
     logger.log('click quit button');
     let msg = messages.buildMsg(messages.MSG_TYPE_QUIT, 0);
     sendAsyncMsg(msg)
+    
 }
 
 $(()=> {

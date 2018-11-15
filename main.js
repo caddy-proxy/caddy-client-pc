@@ -1,2 +1,2 @@
-const app = require('./js/app.js')
+const app = require('./js/caddy_app.js')
 app.run();
