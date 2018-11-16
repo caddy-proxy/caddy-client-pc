@@ -142,7 +142,7 @@ module.exports = {
         return clientDownloadUrl;
     },
     getShareLinkStr : function() {
-        let connectStr = getConnectStr();
+        let connectStr = this.getConnectStr();
         return clientDownloadURL + '#' + encodeURIComponent(connectStr);
     },
 
@@ -151,9 +151,9 @@ module.exports = {
         let connectStr = 'hs://' + userpwd + '@' + proxyHost + ':' + proxyPort + '/?caddy=1';
         return connectStr;
     },
-    
+
     save : function(profileName) {
-        let connectStr = getConnectStr();
+        let connectStr = this.getConnectStr();
         let aLine = profileName + ' ' + connectStr + '\n';
         fs.appendFile(saveFilePath, aLine, 'utf8', (err) => {
            if (err) {

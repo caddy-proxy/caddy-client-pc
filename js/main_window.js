@@ -96,18 +96,25 @@ function onConnectMsg(event, url) {
         let options = {
             host : urlParser.getProxyHost(),
             port : urlParser.getProxyPort(),
-            callback : function() {
-                logger.log('connect to proxy server success');
-                setConnectState('connected');
-                setProxyConfig();
+            rejectUnauthorized :  false,
+            checkServerIdentity: function(servername, cert){
+            logger.log('check server name :' + servername);
+            return 'undefined';
             }
-        }
-        let tlsSocket = tls.connect(options);
-        tlsSocket.setTimeout(3000);
+        };
+        let tlsSocket = tls.connect(options, () => {
+            logger.log('connect to proxy server success!!!!!');
+            setConnectState('connected');
+            setProxyConfig();
+            sendReplyMsg(event, messages.buildMsg(messages.MSG_TYPE_CONNECT_RET, 0));
+        });
+        tlsSocket.setTimeout(8000);
         tlsSocket.on('timeout', () => {
+            logger.log('tls connection timeout!');
             tlsSocket.end();
         });
         tlsSocket.on('end', () => {
+            logger.log('tls connection remote ended!');
             tlsSocket.end();
         });
     } else if(connState == 'connected') {
@@ -152,9 +159,13 @@ function handleConnect(req, socket, headBuffer) {
     }
     //const options;
     const options = {
-        'host': urlParser.getProxyHost,
-        'port': urlParser.getProxyPort,
-        'rejectUnauthorized' :  false,
+        host: urlParser.getProxyHost(),
+        port: urlParser.getProxyPort(),
+        rejectUnauthorized :  false,
+        checkServerIdentity: function(servername, cert){
+            logger.log('check server name :' + servername);
+            return 'undefined';
+        }
     };
     const tlsSocket = tls.connect(options, () => {
         setConnectState('connected');
@@ -241,11 +252,12 @@ function closeWindowEx() {
 module.exports = {
     createMainWindow :  function() {
         let winOptions = {
-            width:650, height:600, 
+            width:500, height:500, 
             center:true, maximizable:false, 
             minimizable:true,closable:true, 
             title : 'caddy-client',
             frame : false,
+            resizable: false
         }
         mainWindow = new BrowserWindow(winOptions);
         let mainPage = path.join('file://', __dirname, '../html/mainpage.html');

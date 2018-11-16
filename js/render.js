@@ -13,7 +13,7 @@ function setConnectionState(state) {
     if( state == 'connected') {
         $('#connect-status').text('已连接');
     } else {
-        $('#connect-status').text('连接断开');
+        $('#connect-status').text('已断开');
     }
     connectionState = state;
 }
@@ -27,7 +27,7 @@ function sendAsyncMsg(msg) {
 function processMsgReply(msg) {
     console.log('get msg reply '+ msg.type);
     if( msg.type == messages.MSG_TYPE_CONNECT_RET) {
-        if(msg.code == 0) {
+        if(msg.param == 0) {
             //success
             setConnectionState('connected');
             logger.log('connect proxy server success!!')
@@ -35,7 +35,7 @@ function processMsgReply(msg) {
         } else {
             //error
             setConnectionState('disconnected');
-            logger.log('connect proxy server failed ' + msg.code);
+            logger.log('connect proxy server failed ' + msg.param);
         }
     } else if (msg.type == messages.MSG_TYPE_LOG) {
         logger.log(msg.log);
@@ -55,7 +55,7 @@ function processMessages() {
 function onClickConnection() {
     let msg ;
     if (connectionState == 'disconnected') {
-        let url = $('#connect-url').val();
+        let url = decodeURIComponent($('#connect-url').val());
         logger.log('connect url is :' + url);
         msg = messages.buildMsg(messages.MSG_TYPE_CONNECT, url);
         sendAsyncMsg(msg);
