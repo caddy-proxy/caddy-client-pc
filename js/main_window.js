@@ -1,6 +1,5 @@
 const {BrowserWindow, app} = require('electron');
 const path =  require('path');
-const caddyApp = require('./caddy_app.js');
 const {ipcMain} = require('electron');
 const logger = require('./logger.js');
 const http = require('http');
@@ -61,7 +60,7 @@ function setProxyConfig() {
     } else if ( OS == 'win32') {
         setProxyConfigWin();
     } else {
-        logger.mainLog(mainWindow, 'set proxy config failed ! os error');
+        logger.log('set proxy config failed ! os error');
     }
 }
 
@@ -74,7 +73,7 @@ function unsetProxyConfig() {
     } else if ( OS == 'win32') {
         unsetProxyConfigWin();
     } else {
-        logger.mainLog(mainWindow, 'set unproxy config failed ! os error');
+        logger.log('set unproxy config failed ! os error');
     }
 }
 
@@ -88,7 +87,7 @@ function onConnectMsg(event, url) {
     console.log('onConnectMsg url:' + url);
     startHttpServer();
     if (!urlParser.parseLinkStr(url)) {
-        logger.mainLog(mainWindow, 'url format is error!!!');
+        logger.log('url format is error!!!');
         let msg = messages.buildMsg(messages.MSG_TYPE_CONNECT_RET, -1);
         sendReplyMsg(event, msg);
         return;
@@ -98,7 +97,7 @@ function onConnectMsg(event, url) {
             host : urlParser.getProxyHost(),
             port : urlParser.getProxyPort(),
             callback : function() {
-                logger.mainLog(mainWindow, 'connect to proxy server success');
+                logger.log('connect to proxy server success');
                 setConnectState('connected');
                 setProxyConfig();
             }
@@ -112,15 +111,15 @@ function onConnectMsg(event, url) {
             tlsSocket.end();
         });
     } else if(connState == 'connected') {
-        logger.mainLog(mainWindow,' state is connected, do nothing');
+        logger.log(mainWindow,' state is connected, do nothing');
     } else {
-        logger.mainLog(mainWindow,'unknown state : ' + connState);
+        logger.log(mainWindow,'unknown state : ' + connState);
     }
 
 }
 
 function onDisconnectMsg(code) {    
-    logger.mainLog(mainWindow, 'disconnect  server code :' + code);
+    logger.log('disconnect  server code :' + code);
     unsetProxyConfig();
     if( connState == 'connected') {
         setConnectState('disconnected');
@@ -128,8 +127,7 @@ function onDisconnectMsg(code) {
 }
 
 function onAsyncMsg(event, msg) {
-    console.log('main receive msg ' + msg.type);
-    logger.mainLog(mainWindow,'receive async msg ' + msg.type);
+    logger.log('receive async msg ' + msg.type);
     if(msg.type == messages.MSG_TYPE_CONNECT) {
         onConnectMsg(event, msg.param);
     } else if (msg.type == messages.MSG_TYPE_DISCONNECT) {
@@ -137,7 +135,7 @@ function onAsyncMsg(event, msg) {
     } else if (msg.type == messages.MSG_TYPE_QUIT) {
         closeWindowEx();
     } else {
-        logger.mainLog(mainWindow,'unknown msg '+ msg.type);
+        logger.log(mainWindow,'unknown msg '+ msg.type);
     }
 
 }
@@ -160,7 +158,7 @@ function handleConnect(req, socket, headBuffer) {
     };
     const tlsSocket = tls.connect(options, () => {
         setConnectState('connected');
-        logger.mainLog(mainWindow, 'connect proxy server success for ' + targetHost);
+        logger.log('connect proxy server success for ' + targetHost);
         tlsSocket.write(httpsReq);
     });
     //10 seconds for waiting data pipe
@@ -168,11 +166,11 @@ function handleConnect(req, socket, headBuffer) {
     socket.setTimeout(10000);
     tlsSocket.on('end', () => {
         tlsSocket.end();
-        logger.mainLog(mainWindow, 'tls stream closed');
+        logger.log('tls stream closed');
     });
     socket.on('end', () => {
         socket.end();
-        logger.mainLog(mainWindow, 'http stream closed');
+        logger.log('http stream closed');
     });
     socket.on('timeout', () => {
         socket.end();
@@ -193,7 +191,7 @@ function handleConnect(req, socket, headBuffer) {
 //listen on localhost:8081
 function startHttpServer() {
     if(isStartHttpServer) {
-       logger.mainLog(mainWindow, 'has started http server');
+       logger.log('has started http server');
        return; 
     }
     httpServer = http.createServer();
@@ -202,9 +200,9 @@ function startHttpServer() {
     });
     httpServer.on('error', (err) => {
         if(err.code == 'EADDRINUSE') {
-            logger.mainLog(mainWindow,'port 8081 is being used');
+            logger.log('port 8081 is being used');
         } else {
-            logger.mainLog(mainWindow,'listen error on localhost:8081');
+            logger.log('listen error on localhost:8081');
         }
     });
 
@@ -216,20 +214,20 @@ function startHttpServer() {
            let data = fs.readFileSync('./pac.url');
            res.end(data);
         } else {
-            logger.mainLog(mainWindow, 'unknown request from local :' +  req.url);
+            logger.log('unknown request from local :' +  req.url);
         }
     });
 
     httpServer.listen(8081, 'localhost');
     isStartHttpServer = true;
-    logger.mainLog(mainWindow,'start http proxy server success!!');
+    logger.log(mainWindow,'start http proxy server success!!');
 }
 
 function stopHttpServer(){
     isStartHttpServer = false;
     if ( httpServer != null) {
         httpServer.close(()=> {
-            //logger.mainLog(mainWindow, 'http proxy server closed');
+            logger.log('http proxy server closed');
         });
     }
 }
@@ -251,7 +249,6 @@ module.exports = {
         }
         mainWindow = new BrowserWindow(winOptions);
         let mainPage = path.join('file://', __dirname, '../html/mainpage.html');
-
         mainWindow.on('ready-to-show', ()=>{
             mainWindow.show();
         }); 

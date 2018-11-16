@@ -6,3 +6,5 @@ click share button
 click share button
 click share button
 click share button
+click quit button
+receive async msg msg-type-quit

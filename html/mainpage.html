@@ -2,6 +2,7 @@
 <head>
     <title>caddy-client</title>
     <link rel="stylesheet" href="./css/main.css" type="text/css"/>
+    <link ret="stylesheet" href="../js/jquery-ui/jquery-ui.css" />
 </head>
 
 <body >
@@ -25,17 +26,34 @@
     <div><button id='share-button' class='share-button'>分享</button> <input id='share-input' readonly class='share-input' /> 
         &nbsp;&nbsp;&nbsp;&nbsp;<button id='cp-button' class='cp-button' >复制</button> </div>
     <div class='sep-n'></div>
-    <div><textarea id='log-area' readonly class='log-area'></textarea></div>
+
+    <div>
+            <span class='profile-list'>
+                    <ul>
+                            <li>1111111     123adfasdfasdasdfasfad</li>
+                            <li>2222222     123adfasdfasdasdfasfad</li>
+                            <li>3333333     123adfasdfasdasdfasfad</li>
+                            <li>4444444     123adfasdfasdasdfasfad</li>
+                    </ul>
+            </span>
+    </div>
+
+    <div class='sep-n'></div>
+
+    <div>
+        
+    </div>
+
     <div class='sep-log-clear'></div>
     <div class='clear-log-container'>
-        <span><button id='clear-log-button' class='clear-log-button'>清除日志</button></span>
         <span><button id='quit-button' class='quit-button'>退出</button></span>
     </div>
 </div>
-<script>
-    window.$ = window.jQuery = require("jquery");
-    require('../js/render.js');
-</script>
+<script>window.$ = window.jQuery = require('../js/jquery-ui/external/jquery/jquery.js');</script>
+<script src="../js/jquery-ui/jquery-ui.js"></script>
+<script src = "../js/render.js"> </script>
+
+
 </body>
 
 </html>

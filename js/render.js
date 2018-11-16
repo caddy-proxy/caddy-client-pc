@@ -1,9 +1,10 @@
 
-const console = require('console'); 
-const logger = require('./logger.js');
+//this module will run in directory which is same with mainpage.html
 const {ipcRenderer, clipboard} = require('electron');
-const messages = require('./messages.js');
-const urlParser = require('./url_parser');
+const console = require('console'); 
+const logger = require('../js/logger.js');
+const messages = require('../js/messages.js');
+const urlParser = require('../js/url_parser');
 
 //values: connected , disconnected
 let connectionState = 'disconnected';
@@ -52,11 +53,10 @@ function processMessages() {
 
 
 function onClickConnection() {
-    logger.log('click connect button');
     let msg ;
     if (connectionState == 'disconnected') {
         let url = $('#connect-url').val();
-        console.log('url is ' + url);
+        logger.log('connect url is :' + url);
         msg = messages.buildMsg(messages.MSG_TYPE_CONNECT, url);
         sendAsyncMsg(msg);
     } else if (connectionState == 'connected') {

@@ -22,26 +22,32 @@
 .save-button {
     width : 40px;
     height: 25px;
-    background-color: black;
 }
 
 .share-button {
-    width : 80px;
-    height : 30px;
+    width : 40px;
+    height : 25px;
 }
 .share-input {
     width: 400px;
-    height: 30px;
+    height: 25px;
 }
 
 .cp-button {
-    width : 80px;
-    height : 30px;
+    width : 40px;
+    height : 25px;
 }
 
 .log-area {
-    width: 600px;
-    height: 400px;
+    display: inline;
+}
+
+.log-container {
+    display: inline;
+}
+
+.profile-list{
+    display: inline;
 }
 
 .quit-button {

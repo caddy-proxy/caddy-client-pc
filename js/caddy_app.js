@@ -1,9 +1,9 @@
 const {app} = require('electron')
-const mainWindow = require('./main_window.js')
+const mainWindow = require('./main_window')
 
 module.exports = {
     run : function() {
-        console.log('run ......');
+        console.log('start run ......');
         app.on('ready', ()=> {
             mainWindow.createMainWindow();
         });
