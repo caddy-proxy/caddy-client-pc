@@ -7,14 +7,21 @@
 <body >
 
 <div class='main-page-container'>
-    <div style = "-webkit-app-region: drag; width:100%; height:40px;"></div>
+    <div style = "-webkit-app-region: drag; width:100%; height:40px; background-color: aqua;"></div>
+
     <div class='link-status-container'><span>连接状态:<label id='connect-status'>已经断开</label></span></div>
+
     <div class='sep-n'></div>
-    <div>代理链接:&nbsp;&nbsp;&nbsp;&nbsp;<input id='connect-url' value="" class='link-input' /> 
-        &nbsp;&nbsp;&nbsp;&nbsp;<button id='connect-button' class='connect-button'>连接/断开</button> 
-        <button id='save-button' class='connect-button'>保存</button> 
+
+    <div style="height:30px;">
+        <span>URL:&nbsp;&nbsp;
+        <input id='connect-url' value="" placeholder="连接url"  class='link-input' /> </span>
+        <span><button id='connect-button' class="connect-button">连接</button> 
+            <button id='save-button' class="save-button">保存</button></span>
     </div>
+
     <div class='sep-n'></div>
+    
     <div><button id='share-button' class='share-button'>分享</button> <input id='share-input' readonly class='share-input' /> 
         &nbsp;&nbsp;&nbsp;&nbsp;<button id='cp-button' class='cp-button' >复制</button> </div>
     <div class='sep-n'></div>

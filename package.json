@@ -4,11 +4,12 @@
   "description": "a https proxy client",
   "main": "main.js",
   "dependencies": {
-    "electron": "^3.0.9",
     "jquery": "^3.3.1",
     "md5": "^2.2.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "electron": "^3.0.9"
+  },
   "scripts": {
     "start": "./node_modules/.bin/electron main.js",
     "dbg": "./node_modules/.bin/electron main.js  --debug --enable-logging"
