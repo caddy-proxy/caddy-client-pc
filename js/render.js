@@ -5,6 +5,8 @@ const console = require('console');
 const logger = require('../js/logger.js');
 const messages = require('../js/messages.js');
 const urlParser = require('../js/url_parser');
+const prompt = require('electron-prompt');
+
 
 //values: connected , disconnected
 let connectionState = 'disconnected';
@@ -89,6 +91,84 @@ function onClickQuit() {
     
 }
 
+
+
+function onClickSave() {
+    let linkStr = $('#connect-url').val();
+    if( !urlParser.parseLinkStr(linkStr) ) {
+       alert('url格式不正确!');
+       return;
+    }
+    let promptOptions = {
+        title: '提示',
+        label: '名字(不要重复):',
+        value: '',
+        width: 250,
+        inputAttrs: {
+            type: 'text',
+            required: true
+        },
+        type: 'input'
+    };
+    prompt(promptOptions)
+    .then((v) => {
+        if(v === null) {
+            alert('未输入保存配置的名称!');
+            console.log('user cancelled');
+        } else {
+            try {
+                 urlParser.save(v);
+                 setTimeout(()=>{
+                    updateProfileList();
+                 }, 1000);
+            } catch(err) {
+                 alert('保存失败!');
+            }
+        }
+    })
+    .catch(console.error);
+
+}
+
+
+
+function onProfileClick(ev) {
+    console.log('click:' + ev.target.id);
+}
+function onProfileDel(ev) {
+    console.log('del click:' + ev.target.id);
+    let profileName = ev.target.id.substr(4);
+    try {
+        urlParser.delProfile(profileName);
+        setTimeout(()=>{
+            updateProfileList();
+        }, 2000);
+    } catch(err) {
+        alert('删除失败');
+    }
+}
+
+function updateProfileList() {
+    console.log('update profile list');
+    $('#profiles').empty();
+    let profiles = urlParser.getAllProfiles();
+    for(var i in profiles) {
+        var line = "<div><div class='profile-item-1'><a id ='"+profiles[i].name+"'>"+profiles[i].name+
+        "</a></div><div class='profile-item-2'>"+profiles[i].url+
+        "</div><div class='profile-item-3'><button id='btn-"+ profiles[i].name+"'>删除</button></div></div>";
+        //logger.log('add line '+ line);
+        $('#profiles').append(line);
+        $('#' + profiles[i].name).bind('click', (ev) =>{onProfileClick(ev);});
+        $('#btn-' + profiles[i].name).bind('click', (ev) =>{onProfileDel(ev);});
+    }       
+}
+
+
+
+function initProfileUIList(){
+    updateProfileList();
+}
+
 $(()=> {
     $('#connect-button').bind('click', (ev)=>{
         onClickConnection();
@@ -105,6 +185,12 @@ $(()=> {
     $('#quit-button').bind('click', (ev) => {
         onClickQuit();
     });
+
+    $('#save-button').bind('click', (ev) => {
+        onClickSave();
+    });
+    initProfileUIList();
+
 
     processMessages();
 });

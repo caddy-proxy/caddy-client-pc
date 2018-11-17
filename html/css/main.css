@@ -1,7 +1,12 @@
-
+.content-container{
+    width:100%;
+    height:100%;
+    margin-top: 0px;
+    padding-top: 0px;
+}
 
 .sep-n {
-    height:10px;
+    height:5px;
 }
 
 .link-status-container {
@@ -9,33 +14,20 @@
     height: 20px;
 }
 
-.link-input {
-    width: 400px;
+.input-1 {
+    width: 320px;
     height: 25px;
 }
 
-.connect-button {
+.button1 {
     width : 40px;
     height: 25px;
+    border: 1px dotted #22e23c;
 }
 
-.save-button {
-    width : 40px;
+.button2 {
+    width : 50px;
     height: 25px;
-}
-
-.share-button {
-    width : 40px;
-    height : 25px;
-}
-.share-input {
-    width: 400px;
-    height: 25px;
-}
-
-.cp-button {
-    width : 40px;
-    height : 25px;
 }
 
 .log-area {
@@ -46,9 +38,10 @@
     display: inline;
 }
 
-.profile-list{
-    display: inline;
+button {
+    outline:none;
 }
+
 
 .quit-button {
     width : 80px;
@@ -57,19 +50,61 @@
 
 .main-page-container {
     padding-left: 15px;
+    width:500px;
+    height:100%;
 }
 
 .quit-button-container {
     text-align: center;
 }
-.clear-log-button {
-    width : 80px;
-    height : 30px;
-}
-.clear-log-container {
-    text-align: center;
+
+.link-label {
+    border: 1px dotted #22e23c;
+    width : 40px;
+    height: 22px;
+    display: inline-block;
 }
 
-.sep-log-clear {
-    height:5px;
+body {
+    overflow:hidden;
+    font-family:'黑体';
+    font-size: 10pt;
+    color:white;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    background-image: url('../images/bg.png');
 }
+
+.profiles-container{
+    border: 1px solid #1daae2;
+    width:480px;
+}
+
+.profile-item-1{
+    display: inline-block; 
+    width:10%;
+    cursor:hand;
+    text-align: left;
+}
+
+.profile-item-1 a:hover {
+    background-color: aquamarine;
+    width:10%;
+}
+
+.profile-item-2{
+    display: inline-block; 
+    width:75%;
+    text-align: left;
+}
+
+.profile-item-3{
+    display: inline-block; 
+    width:15%;
+    cursor:hand;
+    text-align: left;
+    cursor: hand;
+}
+
+
+

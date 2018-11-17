@@ -8,9 +8,7 @@ app.on('ready', ()=> {
 
 app.on('window-all-closed', () => {
     console.log('quit ...');
-    if (process.platform !== "darwin") {
-        app.quit();
-    }
+    app.quit();
   });
 
 mainWindow.processMessages();

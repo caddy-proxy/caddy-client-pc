@@ -157,19 +157,22 @@ module.exports = {
         let aLine = profileName + ' ' + connectStr + '\n';
         fs.appendFile(saveFilePath, aLine, 'utf8', (err) => {
            if (err) {
+               console.log(err);
                throw err;
-           }
+           } 
         });
     },
 
     //return profiles like [{name:'xxx', url: 'xxx'}, ...]
     getAllProfiles : function() {
        let content = fs.readFileSync(saveFilePath, 'utf8');
+       //console.log('content:'+ content);
        let lines = content.split('\n');
        let profileArray = [];
-       for(var line in lines) {
-            if (line.length > 0) {
-                let profile = line.split(' ');
+       for(var i in lines) {
+           //console.log('line:'+ lines[i]);
+            if (lines[i].length > 0 && lines[i] != '\n') {
+                let profile = lines[i].split(' ');
                 profileArray.push({
                     name : profile[0],
                     url : profile[1]
@@ -177,5 +180,24 @@ module.exports = {
             } 
        }
        return profileArray;
+    },
+
+    delProfile : function(profileName) {
+        let profiles = this.getAllProfiles();
+        logger.log('del profile:' + profileName);
+        let profiles2 = [];
+        for (var i in profiles) {
+            if(profiles[i].name == profileName) {
+                console.log('ignore '+ profiles[i].name + " p:"+profileName);
+            } else {
+                profiles2.push(profiles[i]);
+            }
+        }
+        fs.writeFileSync(saveFilePath, '', 'utf8');
+        for(var j in profiles2) {
+            let aLine = profiles2[j].name + ' ' + profiles2[j].url + '\n';
+            logger.log('add a line:' + aLine);
+            fs.writeFileSync(saveFilePath, aLine, 'utf8');
+        }
     }
 }
