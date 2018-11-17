@@ -13,7 +13,7 @@
   },
   "scripts": {
     "start": "./node_modules/.bin/electron main.js",
-    "dbg": "./node_modules/.bin/electron main.js  --debug --enable-logging"
+    "dbg": "./node_modules/.bin/electron main.js  --enable-logging --disable-gpu --force-cpu-draw"
   },
   "author": "",
   "license": "ISC"

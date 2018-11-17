@@ -14,7 +14,7 @@ const saveFilePath = "./config.dat";
 
 //parse : base64(username:password)
 function parseUserPwd(userPwdStr) {
-    let userPwd = new Buffer(userPwdStr, 'base64').toString();
+    let userPwd = Buffer.from(userPwdStr, 'base64').toString();
     let userPwdParts =  userPwd.split(':');
     if(userPwdParts.length == 2) {
         proxyUser = userPwdParts[0];
@@ -132,6 +132,10 @@ module.exports = {
 
     getProxyPwd : function() {
         return proxyPwd;
+    },
+
+    getBasicAuthenKey : function() {
+        return Buffer.from(proxyUser+':'+proxyPwd, 'utf8').toString('base64');
     },
 
     getAdminFlag : function() {
