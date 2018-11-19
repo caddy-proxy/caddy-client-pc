@@ -1,6 +1,7 @@
 
 const fs = require('fs');
 const messages = require('./messages.js');
+var elog = require('electron-log');
 
 const logTerminal = 'file';
 //const logTerminal = 'console';
@@ -9,9 +10,9 @@ module.exports = {
     log : function(log) {
         if (logTerminal == 'file') {
             log += '\n';
-            fs.writeFileSync('caddyclient.log', log, {'flag':'a'});
+            elog.log(log);
         } else if (logTerminal == 'console') {
-            console.log(log);
+            elog.log(log);
         }
     },
     
