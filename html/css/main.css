@@ -90,14 +90,6 @@ button {
     height:8px;
 }
 
-.log-area {
-    display: inline;
-}
-
-.log-container {
-    display: inline;
-}
-
 
 
 .quit-button {
@@ -138,6 +130,7 @@ body {
     border-radius: 8px;
     background-color: rgb(113, 140,126);
     height: 148px;
+    padding-top:15px;
 }
 
 .profile-item-1{
