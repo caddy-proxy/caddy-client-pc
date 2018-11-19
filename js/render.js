@@ -157,9 +157,9 @@ function updateProfileList() {
     $('#profiles').empty();
     let profiles = urlParser.getAllProfiles();
     for(var i in profiles) {
-        var line = "<div><div class='profile-item-1'><a id ='"+profiles[i].name+"'>"+profiles[i].name+
-        "</a></div><div class='profile-item-2'>"+profiles[i].url+
-        "</div><div class='profile-item-3'><button id='btn-"+ profiles[i].name+"'>删除</button></div></div>";
+        var line = "<table><tr><td><div class='profile-item-1'><a id ='"+profiles[i].name+"'>"+profiles[i].name+
+        "</a></div></td> <td><div class='profile-item-2'>"+profiles[i].url+
+        "</div></td><td><div class='profile-item-3'><button id='btn-"+ profiles[i].name+"'>删除</button></div></td></tr></table>";
         //logger.log('add line '+ line);
         $('#profiles').append(line);
         $('#' + profiles[i].name).bind('click', (ev) =>{onProfileClick(ev);});

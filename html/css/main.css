@@ -135,25 +135,27 @@ body {
 
 .profile-item-1{
     display: inline-block; 
-    width:10%;
+    width:50px;
     cursor:hand;
     text-align: left;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .profile-item-1 a:hover {
-    background-color: aquamarine;
-    width:10%;
+    background-color: rgb(113,97,112);
+    width:50px;
 }
 
 .profile-item-2{
     display: inline-block; 
-    width:75%;
+    width:400px;
     text-align: left;
 }
 
 .profile-item-3{
     display: inline-block; 
-    width:15%;
+    width:50px;
     cursor:hand;
     text-align: left;
     cursor: hand;
@@ -175,4 +177,6 @@ body {
     width: 55px;
     height: 22px;
     border:0px;
+    border-radius: 4px;
+    background-color: aquamarine;
 }
