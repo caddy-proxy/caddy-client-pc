@@ -100,7 +100,7 @@ function closeWindowEx() {
 module.exports = {
     createMainWindow :  function() {
         let winOptions = {
-            width:520, height:400, 
+            width:635, height:411, 
             center:true, maximizable:false, 
             minimizable:true,closable:true, 
             title : 'caddy-client',

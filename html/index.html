@@ -7,44 +7,64 @@
 
 <body>
     <div class='content-container'>
+        <!--拖动区域-->
         <div style="-webkit-app-region: drag; width:100%; height:25px; "></div>
+
+
+        <!--内容展示区域-->
         <div class='main-page-container' id='main-page-container'>
-
-            <div class='link-status-container'><span>连接状态:<label id='connect-status'>已经断开</label></span></div>
-
-            <div class='sep-n'></div>
-
-            <div style="height:30px;">
-                <span><span><div class='link-label'>链接:&nbsp;</div></span>
-                    <input id='connect-url' value="hs%3A%2F%2FdXNlcjE6YWJjZGZm%40caddyproxy.tk%3A443%2F%3Fcaddy%3D1" placeholder="连接url" class='input-1' /> 
-                </span>
-                <button id='connect-button' class="button1">连接</button>
-                <button id='save-button' class="button1">保存</button>
+            <!--连接状态区域-->
+            <div class='link-status-container'>
+                <span>
+                    <a><img id='disconnected-img' src="images/disconnected.png"  alt='连接断开'/></a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a><img id='connected-img' src="images/connected.png" alt='已连接'/></span></a>
             </div>
 
-            <div class='sep-n'></div>
+            <div class='link-status-sep'></div>
+            
+            <!--url输入区域-->
+            <div class='url-container'>
+                <table>
+                    <tr>
+                        <td><img src="images/url.png" alt='连接url'/></td>
+                        <td>
+                            <div class='url-input-container'>
+                                <input id='connect-url' value="hs%3A%2F%2FdXNlcjE6YWJjZGZm%40caddyproxy.tk%3A443%2F%3Fcaddy%3D1" 
+                                placeholder="连接url" class='input-1' /> </div>
+                        </td>
+                        <td><div class='conntect-btn-container'><button id='connect-button' class='connect-button'></button></div></td>
+                        <td><div class='save-btn-container'><button id='save-button' class="save-button"></button></div></td>
+                    </tr>
+                </table>
+            </div>
 
-            <div><button id='share-button' class='button1'>分享</button> <input id='share-input' readonly class='input-1' />
-                <button id='cp-button' class='button1'>复制</button> </div>
+            <div class='first-line'></div>
 
-            <div class='sep-n'></div>
+            <!--分享链接展示区域-->
+            <div class='share-btn-container'>
+                <table>
+                <tr>
+                    <td><button id='share-button' class='share-button'></button></td>
+                    <td><input id='share-input' readonly class='input-1' /></td>
+                    <td class='cp-btn-container'><button id='cp-button' class='cp-button'></button> </td>
+                </tr>
+                </table>
+            </div>
 
-            <div style="height:25px;"><label>链接列表:</label></div>
+            <div class='second-line'></div>
+
+            <!--保存的链接列表区域-->
             <div>
                <div id ='profiles' class='profiles-container'>
 
                </div>
             </div>
 
-            <div class='sep-n'></div>
+            <div class='sep-quit'></div>
 
-            <div>
-
-            </div>
-
-            <div class='sep-log-clear'></div>
             <div class='quit-button-container'>
-                <span><button id='quit-button' class='button2'>退出</button></span>
+                <span><button id='quit-button' class='quit-button'></button></span>
             </div>
         </div>
     </div>
@@ -52,8 +72,6 @@
     <script>
         require('../js/render.js');
     </script>
-    <!--<script src="../js/render.js"> </script>-->
-
 
 </body>
 

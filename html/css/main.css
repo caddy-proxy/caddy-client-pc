@@ -1,33 +1,93 @@
 .content-container{
-    width:100%;
-    height:100%;
+    width:635px;
+    height:411px;
     margin-top: 0px;
     padding-top: 0px;
 }
 
-.sep-n {
-    height:5px;
+.link-status-sep {
+    height:8px;
 }
+
+.url-container{
+    height:40px;
+    width:635px;
+    padding-left: 10px;
+}
+
+.url-input-container{
+    padding-left: 15px;
+}
+
+.save-btn-container{
+    padding-left: 15px;
+}
+
 
 .link-status-container {
     text-align: center;
-    height: 20px;
+    height: 43px;
 }
 
 .input-1 {
-    width: 320px;
-    height: 25px;
+    width: 394px;
+    height: 34px;
+    border: 0px;
+    border-radius:8px;
+    background-color: rgb(113, 140,126);
 }
 
-.button1 {
-    width : 40px;
-    height: 25px;
-    border: 1px dotted #22e23c;
+.conntect-btn-container{
+    padding-left: 20px;
 }
 
-.button2 {
-    width : 50px;
-    height: 25px;
+.connect-button{
+    width:39px;
+    height:40px;
+    border: 0px;
+    background-image: url('../images/ready-connect.png');
+}
+.save-button{
+    width:38px;
+    height:38px;
+    border:0px;
+    background-image: url('../images/save.png');
+}
+
+.first-line{
+    height:8px;
+}
+
+.share-button{
+    border: 0px;
+    width:56px;
+    height:36px;
+    background-image: url('../images/share.png');
+}
+
+.share-btn-container{
+    padding-left:15px;
+}
+
+button {
+    outline:none; 
+    cursor: hand;   
+}
+
+
+.cp-button{
+    border:0px;
+    width:43px;
+    height:40px;
+    background-image: url('../images/copy.png');
+}
+
+.cp-btn-container{
+    padding-left: 25px;
+}
+
+.second-line{
+    height:8px;
 }
 
 .log-area {
@@ -38,9 +98,6 @@
     display: inline;
 }
 
-button {
-    outline:none;
-}
 
 
 .quit-button {
@@ -50,8 +107,7 @@ button {
 
 .main-page-container {
     padding-left: 15px;
-    width:500px;
-    height:100%;
+    width:635px;
 }
 
 .quit-button-container {
@@ -76,8 +132,12 @@ body {
 }
 
 .profiles-container{
-    border: 1px solid #1daae2;
-    width:480px;
+    margin-left: 20px;
+    border: 0px ;
+    width:525px;
+    border-radius: 8px;
+    background-color: rgb(113, 140,126);
+    height: 148px;
 }
 
 .profile-item-1{
@@ -106,5 +166,14 @@ body {
     cursor: hand;
 }
 
+.sep-quit {
+    height: 20px;
+}
 
+.quit-button{
+    width:57px;
+    height: 36px;
+    border: 0px;
+    background-image: url('../images/quit.png');
+}
 

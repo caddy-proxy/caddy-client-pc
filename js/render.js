@@ -12,10 +12,13 @@ const prompt = require('electron-prompt');
 let connectionState = 'disconnected';
 
 function setConnectionState(state) {
+    logger.log('init state :' + state);
     if( state == 'connected') {
-        $('#connect-status').text('已连接');
+        $('#disconnected-img').attr('src', '../html/images/disconnected.png');
+        $('#connected-img').attr('src', '../html/images/connected-2.png');
     } else {
-        $('#connect-status').text('已断开');
+        $('#disconnected-img').attr('src', '../html/images/disconnected-2.png');
+        $('#connected-img').attr('src', '../html/images/connected.png');
     }
     connectionState = state;
 }
@@ -190,7 +193,7 @@ $(()=> {
         onClickSave();
     });
     initProfileUIList();
-
+    setConnectionState('disconnected');
 
     processMessages();
 });
