@@ -135,30 +135,35 @@ body {
 
 .profile-item-1{
     display: inline-block; 
-    width:50px;
+    width:70px;
     cursor:hand;
     text-align: left;
     text-overflow: ellipsis;
     overflow: hidden;
+    height:20px;
+    font-size: 9pt;
 }
 
 .profile-item-1 a:hover {
     background-color: rgb(113,97,112);
-    width:50px;
+    width:70px;
 }
 
 .profile-item-2{
     display: inline-block; 
-    width:400px;
+    width:370px;
     text-align: left;
+    height:20px;
+    font-size: 9pt;
 }
 
 .profile-item-3{
     display: inline-block; 
-    width:50px;
+    width:60px;
     cursor:hand;
     text-align: left;
-    cursor: hand;
+    height:20px;
+    font-size: 9pt;
 }
 
 .sep-quit {
@@ -173,10 +178,8 @@ body {
 }
 
 .del-btn {
-    background-image: url('../images/del.png');
-    width: 55px;
+    background-image: url('../images/del-btn.png');
+    width: 45px;
     height: 22px;
     border:0px;
-    border-radius: 4px;
-    background-color: aquamarine;
 }
