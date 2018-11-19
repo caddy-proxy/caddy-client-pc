@@ -177,3 +177,9 @@ body {
     background-image: url('../images/quit.png');
 }
 
+.del-btn {
+    background-image: url('../images/del.png');
+    width: 55px;
+    height: 22px;
+    border:0px;
+}
