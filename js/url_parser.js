@@ -1,6 +1,7 @@
 const logger = require('./logger.js');
 const md5 = require('md5');
 const fs = require('fs');
+const path = require('path')
 
 let clientDownloadUrl = '';
 let proxyHost = '';
@@ -10,7 +11,7 @@ let proxyPwd = '';
 let isAdmin = false;
 
 const clientDownloadURL = 'https://caddy-forwardproxy/download/client/download.html';
-const saveFilePath = "./config.dat";
+const saveFilePath = __dirname + "./config.dat";
 
 //parse : base64(username:password)
 function parseUserPwd(userPwdStr) {
@@ -169,7 +170,12 @@ module.exports = {
 
     //return profiles like [{name:'xxx', url: 'xxx'}, ...]
     getAllProfiles : function() {
-       let content = fs.readFileSync(saveFilePath, 'utf8');
+        let content;
+       try {
+        content = fs.readFileSync(saveFilePath, 'utf8');
+       } catch(err) {
+           logger.log('get config file failed ' + err);
+       }
        //console.log('content:'+ content);
        let lines = content.split('\n');
        let profileArray = [];

@@ -97,6 +97,10 @@ function closeWindowEx() {
     setTimeout(() => {mainWindow.close()}, 1500);
 }
 
+function OpenDebug() {
+    mainWindow.webContents.openDevTools({mode:'detach'})
+}
+
 module.exports = {
     createMainWindow :  function() {
         let winOptions = {
@@ -110,9 +114,11 @@ module.exports = {
         mainWindow = new BrowserWindow(winOptions);
         let mainPage = path.join('file://', __dirname, '../html/index.html');
         mainWindow.on('ready-to-show', ()=>{
+            logger.init();
             mainWindow.show();
         }); 
         mainWindow.loadURL(mainPage);
+        OpenDebug();
         mainWindow.on('close', (ev) => {
             mainWindow = null;
         });
