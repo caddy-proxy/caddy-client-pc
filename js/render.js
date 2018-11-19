@@ -74,7 +74,7 @@ function onClickConnection() {
 }
 
 function onClickShare() {
-   let linkStr = $('#connect-url').val();
+   let linkStr = decodeURIComponent($('#connect-url').val());
    if( !urlParser.parseLinkStr(linkStr) ) {
        logger.log('can not share, format is error');
        return;
@@ -97,7 +97,7 @@ function onClickQuit() {
 
 
 function onClickSave() {
-    let linkStr = $('#connect-url').val();
+    let linkStr = decodeURIComponent($('#connect-url').val());
     if( !urlParser.parseLinkStr(linkStr) ) {
        alert('url格式不正确!');
        return;
@@ -107,6 +107,7 @@ function onClickSave() {
         label: '名字(不要重复):',
         value: '',
         width: 250,
+        height:150,
         inputAttrs: {
             type: 'text',
             required: true
