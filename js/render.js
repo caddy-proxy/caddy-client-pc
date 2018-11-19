@@ -174,6 +174,10 @@ function initProfileUIList(){
     updateProfileList();
 }
 
+function initLinkStrFromFile() {
+    
+}
+
 $(()=> {
     $('#connect-button').bind('click', (ev)=>{
         onClickConnection();
