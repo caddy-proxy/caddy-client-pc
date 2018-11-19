@@ -11,7 +11,7 @@ let proxyPwd = '';
 let isAdmin = false;
 
 const clientDownloadURL = 'https://caddy-forwardproxy/download/client/download.html';
-const saveFilePath = __dirname + "./config.dat";
+const saveFilePath = __dirname + "/config.dat";
 
 //parse : base64(username:password)
 function parseUserPwd(userPwdStr) {
