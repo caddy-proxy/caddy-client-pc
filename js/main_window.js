@@ -131,7 +131,7 @@ module.exports = {
 
         mainWindow.loadURL(mainPage);
         //for debug usage
-        OpenDebug();
+        //OpenDebug();
         mainWindow.on('close', (ev) => {
             mainWindow = null;
         });
