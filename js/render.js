@@ -140,6 +140,12 @@ function onClickSave() {
 
 function onProfileClick(ev) {
     console.log('click:' + ev.target.id);
+    let profiles = urlParser.getAllProfiles();
+    for(var i in profiles) {
+        if ( profiles[i].name == ev.target.id ) {
+            $('#connect-url').val(profiles[i].url);
+        }
+    }
 }
 function onProfileDel(ev) {
     console.log('del click:' + ev.target.id);
@@ -167,18 +173,26 @@ function updateProfileList() {
         $('#' + profiles[i].name).bind('click', (ev) =>{onProfileClick(ev);});
         $('#btn-' + profiles[i].name).bind('click', (ev) =>{onProfileDel(ev);});
         $('#btn-' + profiles[i].name).addClass('del-btn');
-    }       
+    } 
+    
+    
 }
 
 
 
 function initProfileUIList(){
     updateProfileList();
+    let profiles = urlParser.getAllProfiles();
+    if (profiles.length > 0) {
+        let firstLine = profiles[0];
+        logger.log('set connect url :' + firstLine.url);
+        $('#connect-url').val(firstLine.url);
+    } else {
+        logger.log('no url record in file');
+    }
 }
 
-function initLinkStrFromFile() {
-    
-}
+
 
 $(()=> {
     $('#connect-button').bind('click', (ev)=>{

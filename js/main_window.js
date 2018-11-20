@@ -16,6 +16,11 @@ function sendReplyMsg(event, msg) {
 
 function setConnectState(state) {
     connState = state;
+    if (state == 'disconnected') {
+        proxy.unsetProxyConfig();
+    } else if (state == 'connected') {
+        proxy.setProxyConfig();
+    }
 }
 
 function tryToConnect(event, url) {
@@ -28,25 +33,30 @@ function tryToConnect(event, url) {
             return 'undefined';
         }
     };
-    let tlsSocket = tls.connect(options, () => {
-        logger.log('connect to proxy server success!!!!!');
-        setConnectState('connected');
-        proxy.setParser(urlParser);
-        proxy.setConnStateGetter(() =>{
-            return connState;
+    try {
+        let tlsSocket = tls.connect(options, () => {
+            logger.log('connect to proxy server success!!!!!');
+            setConnectState('connected');
+            proxy.setParser(urlParser);
+            proxy.setConnStateGetter(() =>{
+                return connState;
+            });
+            sendReplyMsg(event, messages.buildMsg(messages.MSG_TYPE_CONNECT_RET, 0));
         });
-        proxy.setProxyConfig();
-        sendReplyMsg(event, messages.buildMsg(messages.MSG_TYPE_CONNECT_RET, 0));
-    });
-    tlsSocket.setTimeout(5000);
-    tlsSocket.on('timeout', () => {
-        logger.log('tls connection timeout!');
-        tlsSocket.end();
-    });
-    tlsSocket.on('end', () => {
-        logger.log('tls connection remote ended!');
-        tlsSocket.end();
-    });
+        tlsSocket.setTimeout(5000);
+        tlsSocket.on('timeout', () => {
+            logger.log('tls connection timeout!');
+            tlsSocket.end();
+        });
+        tlsSocket.on('end', () => {
+            logger.log('tls connection remote ended!');
+            tlsSocket.end();
+        });
+    } catch(err) {
+        sendReplyMsg(event, messages.buildMsg(messages.MSG_TYPE_CONNECT_RET, -1));
+        logger.log('connect error ' + url);
+    }
+    
 }
 
 function onConnectMsg(event, url) {
@@ -70,7 +80,6 @@ function onConnectMsg(event, url) {
 
 function onDisconnectMsg(code) {    
     logger.log('disconnect  server code :' + code);
-    proxy.unsetProxyConfig();
     if( connState == 'connected') {
         setConnectState('disconnected');
     }
@@ -121,13 +130,6 @@ module.exports = {
         }); 
         //hs%3A%2F%2FdXNlcjE6YWJjZGZm%40caddyproxy.tk%3A443%2F%3Fcaddy%3D1
 
-        mainWindow.on('show', () =>{
-            let allProfiles = urlParser.getAllProfiles();
-            if (allProfiles.length > 0) {
-                let firstLine = allProfiles[0];
-                $('#connect-url').val(firstLine.url);
-            } 
-        });
 
         mainWindow.loadURL(mainPage);
         //for debug usage

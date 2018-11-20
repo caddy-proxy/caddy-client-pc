@@ -170,11 +170,12 @@ module.exports = {
 
     //return profiles like [{name:'xxx', url: 'xxx'}, ...]
     getAllProfiles : function() {
-        let content;
+       let content;
        try {
         content = fs.readFileSync(saveFilePath, 'utf8');
        } catch(err) {
            logger.log('get config file failed ' + err);
+           return [];
        }
        //console.log('content:'+ content);
        let lines = content.split('\n');
