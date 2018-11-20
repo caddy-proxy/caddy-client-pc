@@ -164,14 +164,14 @@ module.exports = {
     setProxyConfigMac: function () {
     
     },
-    unsetProxyConfigMac: function () {
-    
+    unsetProxyConfigMac: function (callback) {
+        callback();
     },
     setProxyConfigLinux: function () {
-    
+        
     },
-    unsetProxyConfigLinux: function () {
-    
+    unsetProxyConfigLinux: function (callback) {
+        callback();
     },
     setProxyConfig: function () {
         let OS = this.getOSType();
@@ -189,9 +189,9 @@ module.exports = {
     unsetProxyConfig: function (callback) {
         let OS = this.getOSType();
         if( OS == 'darwin') {
-            this.unsetProxyConfigMac();
+            this.unsetProxyConfigMac(callback);
         } else if ( OS == 'linux') {
-            this.unsetProxyConfigLinux();
+            this.unsetProxyConfigLinux(callback);
         } else if ( OS == 'win32') {
             this.unsetProxyConfigWin(callback);
         } else {
