@@ -93,7 +93,10 @@ function onAsyncMsg(event, msg) {
         onDisconnectMsg(msg.param);
     } else if (msg.type == messages.MSG_TYPE_QUIT) {
         closeWindowEx();
-    } else {
+    } else if (msg.type == messages.MSG_TYPE_MINIMIZE) {
+        mainWindow.minimize();
+    } 
+    else {
         logger.log(mainWindow,'unknown msg '+ msg.type);
     }
 

@@ -192,6 +192,11 @@ function initProfileUIList(){
     }
 }
 
+function  onClickMinimize() {
+    logger.log('click minimize');
+    sendAsyncMsg(messages.buildMsg(messages.MSG_TYPE_MINIMIZE, ''));
+}
+
 
 
 $(()=> {
@@ -214,6 +219,11 @@ $(()=> {
     $('#save-button').bind('click', (ev) => {
         onClickSave();
     });
+
+    $('#minimize-box').bind('click', () =>{
+        onClickMinimize();
+    });
+
     initProfileUIList();
     setConnectionState('disconnected');
 
