@@ -160,12 +160,19 @@ module.exports = {
     save : function(profileName) {
         let connectStr = this.getConnectStr();
         let aLine = profileName + ' ' + connectStr + '\n';
-        fs.appendFile(saveFilePath, aLine, 'utf8', (err) => {
-           if (err) {
-               console.log(err);
-               throw err;
-           } 
-        });
+        let profiles = this.getAllProfiles();
+        let options = {
+            encoding : 'utf8',
+            flag : 'w'
+        };
+        fs.writeFileSync(saveFilePath, '', options);
+        options.flag = 'as';
+        fs.writeFileSync(saveFilePath, aLine, options);
+        for( var i in profiles) {
+            aLine = profiles[i].name + ' ' + profiles[i].url + '\n';
+            fs.writeFileSync(saveFilePath, aLine, options);
+        }
+        return true;
     },
 
     //return profiles like [{name:'xxx', url: 'xxx'}, ...]
@@ -199,16 +206,20 @@ module.exports = {
         let profiles2 = [];
         for (var i in profiles) {
             if(profiles[i].name == profileName) {
-                console.log('ignore '+ profiles[i].name + " p:"+profileName);
+                logger.log('ignore '+ profiles[i].name + " p:"+profileName);
             } else {
                 profiles2.push(profiles[i]);
             }
         }
-        fs.writeFileSync(saveFilePath, '', 'utf8');
+        fs.writeFileSync(saveFilePath, '', 'utf8'); //clear first
+        let options = {
+            encoding:'utf8',
+            flag: 'as',
+        };
         for(var j in profiles2) {
             let aLine = profiles2[j].name + ' ' + profiles2[j].url + '\n';
             logger.log('add a line:' + aLine);
-            fs.writeFileSync(saveFilePath, aLine, 'utf8');
+            fs.writeFileSync(saveFilePath, aLine, options);
         }
     }
 }

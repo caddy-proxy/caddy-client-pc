@@ -59,6 +59,8 @@ function tryToConnect(event, url) {
     
 }
 
+
+
 function onConnectMsg(event, url) {
     console.log('onConnectMsg url:' + url);
     proxy.startHttpServer();
@@ -136,9 +138,13 @@ module.exports = {
 
         mainWindow.loadURL(mainPage);
         //for debug usage
-        //OpenDebug();
+        OpenDebug();
         mainWindow.on('close', (ev) => {
             mainWindow = null;
+        });
+
+        process.on('uncaughtException', (reason, p) =>{
+            logger.log('uncaughtException '+ reason);
         });
         
     },

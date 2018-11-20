@@ -120,15 +120,13 @@ function onClickSave() {
     .then((v) => {
         if(v === null) {
             alert('未输入保存配置的名称!');
-            console.log('user cancelled');
+            logger.log('user cancelled');
         } else {
             try {
                  urlParser.save(v);
-                 setTimeout(()=>{
-                    updateProfileList();
-                 }, 1000);
+                 updateProfileList();
             } catch(err) {
-                 alert('保存失败!');
+                 alert('保存失败! ' + err);
             }
         }
     })
@@ -139,7 +137,7 @@ function onClickSave() {
 
 
 function onProfileClick(ev) {
-    console.log('click:' + ev.target.id);
+    logger.log('click:' + ev.target.id);
     let profiles = urlParser.getAllProfiles();
     for(var i in profiles) {
         if ( profiles[i].name == ev.target.id ) {
@@ -148,20 +146,18 @@ function onProfileClick(ev) {
     }
 }
 function onProfileDel(ev) {
-    console.log('del click:' + ev.target.id);
+    logger.log('del click:' + ev.target.id);
     let profileName = ev.target.id.substr(4);
     try {
         urlParser.delProfile(profileName);
-        setTimeout(()=>{
-            updateProfileList();
-        }, 2000);
+        updateProfileList();
     } catch(err) {
         alert('删除失败');
     }
 }
 
 function updateProfileList() {
-    console.log('update profile list');
+    logger.log('update profile list');
     $('#profiles').empty();
     let profiles = urlParser.getAllProfiles();
     for(var i in profiles) {

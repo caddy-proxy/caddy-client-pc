@@ -74,6 +74,7 @@
 
 .share-btn-container{
     padding-left:15px;
+    overflow: auto;
 }
 
 button {
@@ -138,6 +139,7 @@ body {
     background-color: rgb(113, 140,126);
     height: 148px;
     padding-top:15px;
+    overflow:auto;
 }
 
 .profile-item-1{
