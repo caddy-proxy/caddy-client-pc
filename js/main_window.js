@@ -93,8 +93,10 @@ function onAsyncMsg(event, msg) {
 function closeWindowEx() {
     logger.log('close window ex ');
     proxy.stopHttpServer();
-    proxy.unsetProxyConfig();
-    setTimeout(() => {mainWindow.close()}, 1500);
+    proxy.unsetProxyConfig(() =>{
+        mainWindow.close()
+    });
+    //setTimeout(() => {mainWindow.close()}, 1500);
 }
 
 function OpenDebug() {
@@ -117,7 +119,18 @@ module.exports = {
             logger.init();
             mainWindow.show();
         }); 
+        //hs%3A%2F%2FdXNlcjE6YWJjZGZm%40caddyproxy.tk%3A443%2F%3Fcaddy%3D1
+
+        mainWindow.on('show', () =>{
+            let allProfiles = urlParser.getAllProfiles();
+            if (allProfiles.length > 0) {
+                let firstLine = allProfiles[0];
+                $('#connect-url').val(firstLine.url);
+            } 
+        });
+
         mainWindow.loadURL(mainPage);
+        //for debug usage
         OpenDebug();
         mainWindow.on('close', (ev) => {
             mainWindow = null;

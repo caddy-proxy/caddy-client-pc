@@ -139,15 +139,26 @@ module.exports = {
         let options = {
             cwd : working_dir,
         };
-        spawn('winproxy.exe', ['-autoproxy', 'http://127.0.0.1:8081/proxy.pac'], options);
+        let childProcess = spawn('winproxy.exe', ['-autoproxy', 'http://127.0.0.1:8081/proxy.pac'], options);
+        childProcess.on('exit', () => {
+            logger.log('execute the proxy command finished');
+        });
     },
     
-    unsetProxyConfigWin: function () {
+    //callback will be call when execute command finished
+    unsetProxyConfigWin: function (callback) {
         let working_dir = path.join(__dirname);
         let options = {
             cwd : working_dir,
         };
-        spawn('winproxy.exe', ['-unproxy'], options);
+        let childProcess = spawn('winproxy.exe', ['-unproxy'], options);
+        childProcess.on('exit',  () =>{
+            logger.log('exit unproxy command');
+            if(callback) {
+                callback();
+            }
+            
+        });
         logger.log('unproxy ....');
     },
     setProxyConfigMac: function () {
@@ -175,14 +186,14 @@ module.exports = {
             logger.log('set proxy config failed ! os error');
         }
     },
-    unsetProxyConfig: function () {
+    unsetProxyConfig: function (callback) {
         let OS = this.getOSType();
         if( OS == 'darwin') {
             this.unsetProxyConfigMac();
         } else if ( OS == 'linux') {
             this.unsetProxyConfigLinux();
         } else if ( OS == 'win32') {
-            this.unsetProxyConfigWin();
+            this.unsetProxyConfigWin(callback);
         } else {
             logger.log('set unproxy config failed ! os error');
         }

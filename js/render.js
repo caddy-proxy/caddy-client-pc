@@ -48,6 +48,8 @@ function processMsgReply(msg) {
 }
 
 
+
+
 function processMessages() {
     ipcRenderer.on('msg-reply', (event, args) =>{
         processMsgReply(args);
@@ -67,6 +69,7 @@ function onClickConnection() {
     } else if (connectionState == 'connected') {
         msg = messages.buildMsg(messages.MSG_TYPE_DISCONNECT, '');
         sendAsyncMsg(msg);
+        setConnectionState('disconnected');
     } else {
         logger.log('connection state is error :' + connectionState);
     }
@@ -90,8 +93,7 @@ function onClickCp() {
 function onClickQuit() {
     logger.log('click quit button');
     let msg = messages.buildMsg(messages.MSG_TYPE_QUIT, 0);
-    sendAsyncMsg(msg)
-    
+    sendAsyncMsg(msg);
 }
 
 
